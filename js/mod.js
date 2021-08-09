@@ -1,8 +1,8 @@
 let modInfo = {
-	name: "The Dead Tree",
+	name: "The Teri-tree",
 	id: "JJPmymod",
 	author: "JJP",
-	pointsName: "members",
+	pointsName: "kilometers of land",
 	modFiles: ["layers.js", "tree.js"],
 
 	discordName: "JJP#9729",
@@ -13,14 +13,14 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.0",
-	name: "Literally nothing",
+	num: "0.1",
+	name: "Teri-tree v0.1",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
-	<h3>v0.0</h3><br>
-		- Added things.<br>
-		- Added stuff.`
+	<h3>v0.1</h3><br>
+		- Added kilometers of land<br>
+		- Added the first upgrade`
 
 let winText = `Congratulations! You have reached the end and beaten this game, but for now...`
 
@@ -43,7 +43,7 @@ function getPointGen() {
 		return new Decimal(0)
 
 	let gain = new Decimal(1)
-	if (hasUpgrade('p', 11)) gain = gain.times(-10)
+	if (hasUpgrade('c', 11)) gain = gain.times(upgradeEffect('c', 11))
 	return gain
 }
 
@@ -57,7 +57,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-	return player.points.gte(new Decimal("e280000000"))
+	return player.points.gte(new Decimal("200"))
 }
 
 
