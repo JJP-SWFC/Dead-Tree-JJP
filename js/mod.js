@@ -7,7 +7,7 @@ let modInfo = {
 
 	discordName: "JJP#9729",
 	discordLink: "",
-	initialStartPoints: new Decimal (4500), // Used for hard resets and new players
+	initialStartPoints: new Decimal (10), // Used for hard resets and new players
 	offlineLimit: 1,  // In hours
 }
 
@@ -57,7 +57,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-	return player.points.gte(new Decimal("200"))
+	return player.points.gte(new Decimal("1000"))
 }
 
 
