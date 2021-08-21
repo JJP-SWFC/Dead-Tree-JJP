@@ -1,26 +1,25 @@
 let modInfo = {
-	name: "The Teri-tree",
+	name: "His-tree",
 	id: "JJPmymod",
 	author: "JJP",
-	pointsName: "kilometers of land",
+	pointsName: "microseconds since the big bang",
 	modFiles: ["layers.js", "tree.js"],
 
 	discordName: "JJP#9729",
 	discordLink: "",
-	initialStartPoints: new Decimal (10), // Used for hard resets and new players
+	initialStartPoints: new Decimal (1), // Used for hard resets and new players
 	offlineLimit: 1,  // In hours
 }
 
 // Set your version in num and name
 let VERSION = {
 	num: "0.1",
-	name: "Teri-tree v0.1",
+	name: "His-tree v0.1",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
 	<h3>v0.1</h3><br>
-		- Added kilometers of land<br>
-		- Added the first upgrade`
+		- Added big bang layer<br>`
 
 let winText = `Congratulations! You have reached the end and beaten this game, but for now...`
 
@@ -34,7 +33,11 @@ function getStartPoints(){
 
 // Determines if it should show points/sec
 function canGenPoints(){
-	return true
+	if(!player.p.beep){
+		return true}
+	else{
+		return false
+	}
 }
 
 // Calculate points/sec!
@@ -43,7 +46,9 @@ function getPointGen() {
 		return new Decimal(0)
 
 	let gain = new Decimal(1)
-	if (hasUpgrade('c', 11)) gain = gain.times(upgradeEffect('c', 11))
+	if (hasUpgrade('p', 11)) gain = gain.times(upgradeEffect('p', 11))
+	if (hasUpgrade('p', 12)) gain = gain.times(upgradeEffect('p', 12))
+	if (hasUpgrade('p', 13)) gain = gain.times(upgradeEffect('p', 13))
 	return gain
 }
 
@@ -57,7 +62,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-	return player.points.gte(new Decimal("1000"))
+	return player.points.gte(new Decimal("1e300"))
 }
 
 
