@@ -10,7 +10,6 @@ let modInfo = {
 	initialStartPoints: new Decimal (1), // Used for hard resets and new players
 	offlineLimit: 1,  // In hours
 }
-
 // Set your version in num and name
 let VERSION = {
 	num: "0.1",
@@ -47,8 +46,8 @@ function getPointGen() {
 
 	let gain = new Decimal(1)
 	if (hasUpgrade('p', 11)) gain = gain.times(upgradeEffect('p', 11))
-	if (hasUpgrade('p', 12)) gain = gain.times(upgradeEffect('p', 12))
 	if (hasUpgrade('p', 13)) gain = gain.times(upgradeEffect('p', 13))
+	if (hasUpgrade('p', 14)) gain = gain.pow(upgradeEffect('p', 14))
 	return gain
 }
 
