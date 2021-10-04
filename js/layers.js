@@ -54,7 +54,7 @@ addLayer("p", {
             title: "Self-boosting magic",
             description: "Protons boost themselves",
             effect() {
-                return ((player.p.points > 1023) ? new Decimal(10) : player[this.layer].points.add(1).log(2))
+                return (player[this.layer].points.add(1).log(2) * upgradeEffect('p', 15))
             },
             effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" },
             cost: new Decimal(5),
@@ -76,6 +76,19 @@ addLayer("p", {
             effect() { return (1.1)},
             effectDisplay(){return format(upgradeEffect(this.layer, this.id))},
             cost: new Decimal(200),
+        },
+        15: {
+            title: "Some boring upgrade",
+            description: "Multiply self-boosting magic by 10",
+            effect() {
+                if (hasUpgrade('p',15)){
+                    return 10
+                }
+                else{
+                    return 1
+                }
+            },
+            cost: new Decimal(1000)
         },
     },
     layerShown(){return true}
@@ -155,7 +168,45 @@ addLayer("softcaps", {
         11: {
             display() { return "Free 1000 points, this is only useful if you found this button at the start"},
             canClick() { return true},
-            onClick() {openNewTab("https://youtu.be/dQw4w9WgXcQ")}
+            onClick() {openNewTab("https://cntr.click/t8rnJPd")}
         }
     }
+})
+
+addLayer("atoms", {
+    name: "Atoms",
+    symbol: "A",
+    color: "#0EF18C",
+    resource: "atoms",
+    requires: new Decimal(100000),
+    startData() { return {
+        unlocked: true,
+        points: new Decimal(0),
+    }},
+    baseResource: "protons",
+    baseAmount() {return player["p"].points},
+    type: "normal",
+    exponent: 0.5,
+    layerShown(){
+        return (player.p.total.gte(100000) || player.atoms.total.gte(1))
+    },
+    base: new Decimal(2),
+    gainMult(){
+        mult = new Decimal(1)
+        return mult
+    },
+    gainExp(){
+        return new Decimal(1)
+    },
+    row: 1,
+    effect() {
+        if (player.atoms.points >= 99){
+            return 1000
+        }
+        return (player.atoms.points.add(1).pow(1.5))
+    },
+    effectDescription(){
+        return "which are multiplying point generation by " + format(tmp.atoms.effect) + "x"
+    },
+
 })

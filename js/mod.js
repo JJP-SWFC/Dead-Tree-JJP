@@ -16,9 +16,18 @@ let VERSION = {
 	name: "His-tree v0.1",
 }
 
-let changelog = `<h1>Changelog:</h1><br>
-	<h3>v0.1</h3><br>
-		- Added big bang layer<br>`
+let changelog = `<h1>Changelog:</h1><br><br>
+	<h2>Current Endgame: 1e9 points</h2><br><br>
+	<h3>v0.1.1</h3><br>
+		- Added 2 upgrades to the protons layer<br>
+		- Actually put in and endgame<br>
+		- Added the softcaps layer incase it gets used in the future<br>
+		- Added basis of the atoms layer<br>
+		- Added 1 hidden useless achievement and 1 sneaky reward in the softcaps tab, if you actually read the changelog then free points to you I guess<br>
+	<br><h3>v0.1</h3><br>
+		- Added big bang layer<br>
+	`
+
 
 let winText = `Congratulations! You have reached the end and beaten this game, but for now...`
 
@@ -48,6 +57,7 @@ function getPointGen() {
 	if (hasUpgrade('p', 11)) gain = gain.times(upgradeEffect('p', 11))
 	if (hasUpgrade('p', 13)) gain = gain.times(upgradeEffect('p', 13))
 	if (hasUpgrade('p', 14)) gain = gain.pow(upgradeEffect('p', 14))
+	gain = gain.times(tmp.atoms.effect)
 	return gain
 }
 
@@ -61,7 +71,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-	return player.points.gte(new Decimal("1e300"))
+	return player.points.gte(new Decimal("1e9"))
 }
 
 
