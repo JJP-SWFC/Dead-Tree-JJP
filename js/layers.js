@@ -26,7 +26,12 @@ addLayer("p", {
     },
     row: 0, // Row the layer is in on the tree (0 is the first row)
     hotkeys: [
-        {key: "P", description: "P: Reset for protons", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+        {
+            key:"v", description: "P:Reset for protons", onPress() {
+                if (canReset(this.layer))
+                    doReset(this.layer)
+            }
+        },
     ],
     tabFormat: [
         "main-display",
