@@ -26,7 +26,12 @@ addLayer("p", {
     },
     row: 0, // Row the layer is in on the tree (0 is the first row)
     hotkeys: [
-        {key: "P", description: "P: Reset for protons", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+        {
+            key:"v", description: "P:Reset for protons", onPress() {
+                if (canReset(this.layer))
+                    doReset(this.layer)
+            }
+        },
     ],
     tabFormat: [
         "main-display",
@@ -54,7 +59,7 @@ addLayer("p", {
             title: "Self-boosting magic",
             description: "Protons boost themselves",
             effect() {
-                return (player[this.layer].points.add(1).log(2) * upgradeEffect('p', 15))
+                return (player[this.layer].points.add(1).log(2).add(1) * upgradeEffect('p', 15))
             },
             effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" },
             cost: new Decimal(5),
