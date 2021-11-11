@@ -164,3 +164,8 @@
 	border-color: rgba(0, 0, 0, 0.125);
 }
 
+.rainbow-text {
+	background-image: linear-gradient(to left, violet, indigo, blue, green, yellow, orange, red);   -webkit-background-clip: text;
+	color: transparent;
+  }
+

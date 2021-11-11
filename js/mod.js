@@ -5,8 +5,8 @@ let modInfo = {
 	pointsName: "microseconds since the big bang",
 	modFiles: ["layers.js", "tree.js"],
 
-	discordName: "JJP#9729",
-	discordLink: "",
+	discordName: "JJP's Games Discord",
+	discordLink: "https://discord.gg/XGRJp9ZTDb",
 	initialStartPoints: new Decimal (1), // Used for hard resets and new players
 	offlineLimit: 1,  // In hours
 }
@@ -18,7 +18,13 @@ let VERSION = {
 
 let changelog = `<h1>Changelog:</h1><br><br>
 	<h2>Current Endgame: 1e9 points</h2><br><br>
-	<h3>v0.1.1</h3><br>
+	<h3>v0.2.0</h3><br>
+		- <b>Added a fundraiser link and tab</b><br>
+		- Added an atom milestone<br>
+		- Made it so that you have to get an upgrade to get the atoms layer<br>
+		- Added a current hardcap to the atoms effect<br>
+		- Added some lore<br>
+	<br><h3>v0.1.1</h3><br>
 		- Added 2 upgrades to the protons layer<br>
 		- Actually put in and endgame<br>
 		- Added the softcaps layer incase it gets used in the future<br>
@@ -57,7 +63,8 @@ function getPointGen() {
 	if (hasUpgrade('p', 11)) gain = gain.times(upgradeEffect('p', 11))
 	if (hasUpgrade('p', 13)) gain = gain.times(upgradeEffect('p', 13))
 	if (hasUpgrade('p', 14)) gain = gain.pow(upgradeEffect('p', 14))
-	gain = gain.times(tmp.atoms.effect)
+	if (hasUpgrade('a', 11)) gain = gain.times(upgradeEffect('a', 11))
+	gain = gain.times(tmp.a.effect)
 	return gain
 }
 
@@ -80,7 +87,7 @@ function isEndgame() {
 
 // Style for the background, can be a function
 var backgroundStyle = {
-
+	
 }
 
 // You can change this if you have things that can be messed up by long tick lengths

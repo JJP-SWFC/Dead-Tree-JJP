@@ -1,6 +1,20 @@
 function openNewTab(url){
    window.open(url, "_blank").focus(); 
 }
+addLayer("l", {
+	startData() { return {unlocked: true}},
+	color: "#ff8888",
+	symbol: "L",
+	row: "side",
+	position: -1,
+	layerShown() { return true },
+	tooltip: "Link",
+    tabFormat: [
+		"blank", "blank", "blank",
+        ["raw-html", "<h1><a class=rainbow-text href=https://www.justgiving.com/fundraising/jjp-games target=_blank>Donate to my charity fundraiser</a></h1>"],
+	],
+})
+//Add the protons layer
 addLayer("p", {
     name: "Protons", // This is optional, only used in a few places, If absent it just uses the layer id.
     symbol: "P", // This appears on the layer's node. Default is the id with the first letter capitalized
@@ -9,6 +23,12 @@ addLayer("p", {
         unlocked: true,
 		points: new Decimal(0),
     }},
+    infoboxes: {
+        lore: {
+            title: "And there was something",
+            body: `After just a few seconds, there is now <i>something</i> there, it doesn't do much yet but maybe it will soon...`
+        }
+    },
     color: "#bd5cac",
     requires: new Decimal(10), // Can be a function that takes requirement increases into account
     resource: "protons", // Name of prestige currency
@@ -34,6 +54,7 @@ addLayer("p", {
         },
     ],
     tabFormat: [
+        ["infobox", "lore"],
         "main-display",
         "prestige-button",
         "blank",
@@ -63,6 +84,7 @@ addLayer("p", {
             },
             effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" },
             cost: new Decimal(5),
+            unlocked(){return hasUpgrade('p',11)},
         },
         13: {
             title: "Gimme those upgrades",
@@ -74,6 +96,7 @@ addLayer("p", {
                 return "+" + format(upgradeEffect(this.layer, this.id))
             },
             cost: new Decimal(20),
+            unlocked(){return hasUpgrade('p',12)},
         },
         14: {
             title: "I've got the power",
@@ -81,6 +104,7 @@ addLayer("p", {
             effect() { return (1.1)},
             effectDisplay(){return format(upgradeEffect(this.layer, this.id))},
             cost: new Decimal(200),
+            unlocked(){return hasUpgrade('p',13)},
         },
         15: {
             title: "Some boring upgrade",
@@ -93,12 +117,27 @@ addLayer("p", {
                     return 1
                 }
             },
-            cost: new Decimal(1000)
+            cost: new Decimal(1000),
+            unlocked(){return hasUpgrade('p',14)},
+        },
+        21: {
+            title: "A new layer?",
+            description: "Adds a new layer",
+            cost: new Decimal(10000),
+            unlocked(){return hasUpgrade('p',15)},
         },
     },
-    layerShown(){return true}
+
+    layerShown(){return true},
+    doReset(layer){
+    if(layer!="p"){
+    let keep = []
+    if(hasMilestone("a","1")){keep.push("upgrades")}
+    layerDataReset(this.layer,keep)
+    }}
 })
 
+//Achievements Layer
 addLayer("ach", {
     startData() {return {
         unlocked: true,
@@ -106,6 +145,7 @@ addLayer("ach", {
         clicks:new Decimal(0),
     }},
 symbol() {return "«"},
+position: 1,
 tooltip(){return "Achievements"},
     color: "#ffff00",
     resource: "achievements",
@@ -155,6 +195,8 @@ tooltip(){return "Achievements"},
             },
         },
 },)
+
+//Softcaps layer
 addLayer("softcaps", {
     name: "Softcaps",
     symbol: "S",
@@ -162,6 +204,7 @@ addLayer("softcaps", {
     requires: new Decimal(10),
     row: "side",
     tooltip: "Softcaps",
+    position: 10,
     tabFormat: [
         ["display-text",
             function() {return "I've not put this in yet"}],
@@ -178,12 +221,13 @@ addLayer("softcaps", {
     }
 })
 
-addLayer("atoms", {
+// Atoms Layer
+addLayer("a", {
     name: "Atoms",
     symbol: "A",
     color: "#0EF18C",
     resource: "atoms",
-    requires: new Decimal(100000),
+    requires: new Decimal(25000),
     startData() { return {
         unlocked: true,
         points: new Decimal(0),
@@ -192,8 +236,21 @@ addLayer("atoms", {
     baseAmount() {return player["p"].points},
     type: "normal",
     exponent: 0.5,
+    infoboxes: {
+        lore: {
+            title: "Something new?",
+            body() {
+                if(player.a.total.gte(1)){
+                    return `It worked! We made some atoms! Maybe JJP will stop being lazy soon and allow us to smash atoms together!`
+                }
+                else{
+                    return `This "proton" nonsense is getting a bit boring, I wonder if something will happen if I smash them together...`
+                }
+            }
+        }
+    },
     layerShown(){
-        return (player.p.total.gte(100000) || player.atoms.total.gte(1))
+        return (hasUpgrade('p', 21) || player.a.total.gte(1))
     },
     base: new Decimal(2),
     gainMult(){
@@ -205,13 +262,41 @@ addLayer("atoms", {
     },
     row: 1,
     effect() {
-        if (player.atoms.points >= 99){
+        if (player.a.points >= 99){
             return 1000
         }
-        return (player.atoms.points.add(1).pow(1.5))
+        return (player.a.points.add(1).pow(1.5))
     },
-    effectDescription(){
-        return "which are multiplying point generation by " + format(tmp.atoms.effect) + "x"
+    effectDescription() {
+        return `which multiply your point gain by ${format(this.effect())}`
     },
-
+    tabFormat: [
+        ["infobox", "lore"],
+        "main-display",
+        "prestige-button",
+        "blank",
+        "milestones",
+        "blank",
+        "upgrades"
+    ],
+    upgrades: {
+        11: {
+            title: "More point boosts",
+            description: "Atoms boost point gain by even more",
+            cost: new Decimal(1),
+            effect() {
+                return (player[this.layer].points.pow(0.5).add(1))
+            },
+            effectDisplay() {
+                return "x" + format(upgradeEffect(this.layer, this.id))
+            },
+        },
+    },
+    milestones: {
+        1: {
+            requirementDescription: "3 Atoms",
+            effectDescription: "Keep Prestige Upgrades On All Reset",
+            done() {return player[this.layer].points.gte(3)},
+        },
+    },
 })

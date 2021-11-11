@@ -1,5 +1,5 @@
 // ************ Themes ************
-var themes = ["default", "aqua"]
+var themes = ["default", "aqua", "inverted"]
 
 var colors = {
 	default: {
@@ -21,6 +21,15 @@ var colors = {
 		locked: "#c4a7b3",
 		background: "#001f3f",
 		background_tooltip: "rgba(0, 15, 31, 0.75)",
+	},
+	inverted: {
+		1: "#000000",
+		2: "#404040",
+		3: "#808080",
+		color: "#202020",
+		points: "#000000",
+		background: "#f0f0f0",
+		background_tooltip: "rgba(255, 255, 255, 0.75)",
 	},
 }
 function changeTheme() {
@@ -44,7 +53,6 @@ function switchTheme() {
 	else {
 		index ++;
 		options.theme = themes[index];
-		options.theme = themes[1];
 	}
 	changeTheme();
 	resizeCanvas();
