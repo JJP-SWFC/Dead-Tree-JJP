@@ -47,7 +47,7 @@ addLayer("p", {
     row: 0, // Row the layer is in on the tree (0 is the first row)
     hotkeys: [
         {
-            key:"v", description: "P:Reset for protons", onPress() {
+            key:"p", description: "P:Reset for protons", onPress() {
                 if (canReset(this.layer))
                     doReset(this.layer)
             }
@@ -292,10 +292,18 @@ addLayer("a", {
             },
         },
     },
+    hotkeys: [
+        {
+            key:"a", description: "A:Reset for atoms", onPress() {
+                if (canReset(this.layer))
+                    doReset(this.layer)
+            }
+        },
+    ],
     milestones: {
         1: {
             requirementDescription: "3 Atoms",
-            effectDescription: "Keep Prestige Upgrades On All Reset",
+            effectDescription: "Keep Proton Upgrades On All Reset",
             done() {return player[this.layer].points.gte(3)},
         },
     },
