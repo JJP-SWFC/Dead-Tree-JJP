@@ -24,6 +24,7 @@ let changelog = `<h1>Changelog:</h1><br><br>
 		- Made it so that you have to get an upgrade to get the atoms layer<br>
 		- Added a current hardcap to the atoms effect<br>
 		- Added some lore<br>
+		- Fixed some bugs<br>
 	<br><h3>v0.1.1</h3><br>
 		- Added 2 upgrades to the protons layer<br>
 		- Actually put in and endgame<br>
