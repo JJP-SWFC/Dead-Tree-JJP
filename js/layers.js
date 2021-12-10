@@ -57,13 +57,7 @@ addLayer("p", {
         ["infobox", "lore"],
         "main-display",
         "prestige-button",
-        "blank",
-        ["toggle", ["p", "beep"]],
-        ["display-text", 
-            function() { return '^ Can\'t generate points while on, not sure why this is useful but it was funny'}],
-        "milestones",
-        "blank",
-        "blank",
+        "resource-display",
         "upgrades"
     ],
     upgrades: {
